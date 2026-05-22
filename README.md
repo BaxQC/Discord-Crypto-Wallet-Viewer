@@ -1,12 +1,13 @@
 <div align="center">
 
-# 🪙 LTC Portfolio Bot
+# 💼 Crypto Portfolio Bot
 
-**A Discord bot to track your Litecoin wallets — live balances, USD value, transaction count.**
+**Track your BTC, ETH, LTC & SOL wallets in Discord — live balances, USD value, persistent storage.**
 
 [![Go Version](https://img.shields.io/badge/Go-1.21+-00acd7?style=for-the-badge&logo=go&logoColor=white)](https://golang.org)
+[![SQLite](https://img.shields.io/badge/SQLite-Persistent-003b57?style=for-the-badge&logo=sqlite&logoColor=white)](https://sqlite.org)
 [![License: MIT](https://img.shields.io/badge/License-MIT-silver?style=for-the-badge)](LICENSE)
-[![Litecoin](https://img.shields.io/badge/Litecoin-LTC-a6a9aa?style=for-the-badge&logo=litecoin&logoColor=white)](https://litecoin.org)
+[![Coins](https://img.shields.io/badge/Chains-BTC%20%7C%20ETH%20%7C%20LTC%20%7C%20SOL-f7931a?style=for-the-badge)]()
 [![No Key Needed](https://img.shields.io/badge/API%20Key-Not%20Required-3ba55c?style=for-the-badge)]()
 
 </div>
@@ -15,44 +16,67 @@
 
 ## 📸 Preview
 
-> `/portfolio` — shows all your linked wallets with live LTC balance and USD value
-
 ```
-🪙 Your LTC Portfolio
-Total: 2.5000 LTC ≈ $135.50 USD
-LTC price: $54.20
+💼 Your Crypto Portfolio
+₿ 0.002500 BTC   💎 0.850000 ETH   🪙 2.500000 LTC   ◎ 12.000000 SOL
 
-🔵 LLLhLe...yYaC
-2.5000 LTC — $135.50
+Total ≈ $2,847.50 USD
+
+₿ BTC  1A1zP1...eP5E
+0.002500 BTC — $165.00
 142 transactions
 
-Powered by BlockCypher & CoinGecko • Read-only, your keys are safe
+💎 ETH  0x1234...5678
+0.850000 ETH — $2,167.50
+
+🪙 LTC  LLLhLe...yYaC
+2.500000 LTC — $135.00
+38 transactions
+
+◎ SOL  9xQt7W...3rPk
+12.000000 SOL — $380.00
 ```
 
 ---
 
-## ✨ Commands
+## ✨ Features
+
+- 🔍 **Auto-detects coin** from address — just paste any address, no need to specify the coin
+- 💾 **SQLite persistence** — wallets survive bot restarts
+- 💱 **4 chains** — BTC, ETH, LTC, SOL
+- 💵 **Live USD prices** via CoinGecko
+- 🔒 **Ephemeral responses** — only you can see your portfolio
+- 👤 Up to **10 wallets** per user
+
+---
+
+## 🚀 Commands
 
 | Command | Description |
 |---|---|
-| `/wallet add <address>` | Link a Litecoin wallet address (read-only) |
+| `/wallet add <address>` | Link a wallet — coin auto-detected |
 | `/wallet remove <address>` | Unlink a wallet |
 | `/wallet list` | Show all your linked wallets |
 | `/portfolio` | Live balances + USD value for all wallets |
 
-- Max **5 wallets** per user
-- Supports `L...`, `M...`, and `ltc1...` address formats (including Exodus)
-- All responses are **ephemeral** (only visible to you)
+**Supported address formats:**
+
+| Coin | Formats |
+|---|---|
+| ₿ BTC | `1...` `3...` `bc1...` |
+| 💎 ETH | `0x...` (42 chars) |
+| 🪙 LTC | `L...` `M...` `ltc1...` |
+| ◎ SOL | Base58 (32–44 chars) |
 
 ---
 
-## 🚀 Setup
+## ⚙️ Setup
 
-### 1. Clone the repo
+### 1. Clone
 
 ```bash
-git clone https://github.com/yourusername/ltc-portfolio-bot
-cd ltc-portfolio-bot
+git clone https://github.com/yourusername/crypto-portfolio-bot
+cd crypto-portfolio-bot
 ```
 
 ### 2. Install dependencies
@@ -61,20 +85,20 @@ cd ltc-portfolio-bot
 go mod tidy
 ```
 
-### 3. Create your `.env` file
+### 3. Configure `.env`
 
 ```bash
 cp .env.example .env
 ```
 
-Fill it in:
-
 ```env
 DISCORD_TOKEN=your_bot_token_here
 GUILD_ID=your_server_id_here
+ETHERSCAN_API_KEY=optional_but_recommended
 ```
 
-> Remove `GUILD_ID` (or leave it blank) to register commands globally — takes up to 1 hour to propagate. Keep it set during development for instant updates.
+> - `GUILD_ID` — set during development for instant command registration. Remove for global (takes ~1hr).
+> - `ETHERSCAN_API_KEY` — optional. Get a free one at [etherscan.io/apis](https://etherscan.io/apis) for higher ETH rate limits.
 
 ### 4. Run
 
@@ -82,22 +106,24 @@ GUILD_ID=your_server_id_here
 go run main.go
 ```
 
+A `wallets.db` SQLite file will be created automatically on first run.
+
 ---
 
 ## 🤖 Creating a Discord Bot
 
 1. Go to [discord.com/developers/applications](https://discord.com/developers/applications)
-2. Click **New Application** → give it a name
-3. Go to **Bot** → click **Reset Token** → copy the token → paste into `.env`
-4. Scroll down, enable **Server Members Intent**
-5. Go to **OAuth2 → URL Generator**:
+2. **New Application** → name it
+3. **Bot** → **Reset Token** → copy → paste into `.env` as `DISCORD_TOKEN`
+4. Enable **Server Members Intent** under Privileged Gateway Intents
+5. **OAuth2 → URL Generator**:
    - Scopes: `bot` + `applications.commands`
-   - Bot permissions: `Send Messages`
-6. Open the generated URL and invite the bot to your server
+   - Bot Permissions: `Send Messages`
+6. Open the generated URL and invite the bot
 
-**Getting your Guild ID (Server ID):**
-- Discord Settings → Advanced → enable **Developer Mode**
-- Right-click your server icon → **Copy Server ID**
+**Getting your Guild ID:**
+- Discord Settings → Advanced → **Developer Mode** ✅
+- Right-click your server → **Copy Server ID** → paste as `GUILD_ID`
 
 ---
 
@@ -105,21 +131,38 @@ go run main.go
 
 | Data | API | Key Required |
 |---|---|---|
-| Wallet balance & tx count | [BlockCypher](https://www.blockcypher.com/dev/litecoin/) | ❌ No |
-| LTC/USD live price | [CoinGecko](https://www.coingecko.com/en/api) | ❌ No |
+| BTC & LTC balance | [BlockCypher](https://www.blockcypher.com/dev/) | ❌ No |
+| ETH balance | [Etherscan](https://etherscan.io/apis) | ⚠️ Optional (free) |
+| SOL balance | [Solana RPC](https://docs.solana.com/api/http) | ❌ No |
+| All coin prices | [CoinGecko](https://www.coingecko.com/en/api) | ❌ No |
+
+---
+
+## 🗂️ Project Structure
+
+```
+crypto-portfolio-bot/
+├── main.go        # entire bot — DB, API calls, Discord handlers
+├── wallets.db     # auto-created SQLite database
+├── go.mod
+├── go.sum
+├── .env
+└── .env.example
+```
 
 ---
 
 ## 🗺️ Roadmap
 
-- [ ] Persist wallets to SQLite (survive restarts)
-- [ ] `/alert <price>` — DM when LTC hits a target
-- [ ] Daily portfolio digest (scheduled cron)
-- [ ] Multi-coin support (BTC, ETH...)
+- [x] LTC wallet tracking
+- [x] BTC, ETH, SOL support
+- [x] SQLite persistence
+- [ ] `/alert <coin> <price>` — DM on price target hit
+- [ ] Daily portfolio digest (scheduled)
 - [ ] `/history` — 7-day balance chart
 
 ---
 
 ## 📄 License
 
-MIT © [bax](https://github.com/baxqc)
+MIT © [Bax](https://github.com/baxqc)
