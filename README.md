@@ -16,26 +16,17 @@
 
 ## 📸 Preview
 
-```
-💼 Your Crypto Portfolio
-₿ 0.002500 BTC   💎 0.850000 ETH   🪙 2.500000 LTC   ◎ 12.000000 SOL
+**`/wallet add`** — auto-detects the coin and links the wallet
 
-Total ≈ $2,847.50 USD
+![wallet add](preview-add.png)
 
-₿ BTC  1A1zP1...eP5E
-0.002500 BTC — $165.00
-142 transactions
+**`/wallet list`** — shows all linked wallets with coin and address
 
-💎 ETH  0x1234...5678
-0.850000 ETH — $2,167.50
+![wallet list](preview-list.png)
 
-🪙 LTC  LLLhLe...yYaC
-2.500000 LTC — $135.00
-38 transactions
+**`/portfolio`** — live balance and USD value
 
-◎ SOL  9xQt7W...3rPk
-12.000000 SOL — $380.00
-```
+![portfolio](preview-portfolio.png)
 
 ---
 
