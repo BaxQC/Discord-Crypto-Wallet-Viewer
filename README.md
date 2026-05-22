@@ -66,8 +66,8 @@
 ### 1. Clone
 
 ```bash
-git clone https://github.com/yourusername/crypto-portfolio-bot
-cd crypto-portfolio-bot
+git clone https://github.com/baxqc/Discord-Crypto-Wallet-Viewer
+cd Discord-Crypto-Wallet-Viewer
 ```
 
 ### 2. Install dependencies
